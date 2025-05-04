@@ -6,7 +6,6 @@ import Link from "next/link"
 import { playPvEGame, type GameResult } from "@/actions/pve-game"
 import { Move } from "@/lib/game"
 import { authClient } from "@/lib/auth-client"
-import LeaderboardWidget from "@/components/leaderboard-widget"
 import CurrentUserRanking from "@/components/current-user-ranking"
 
 export default function PvEGame() {
@@ -102,9 +101,6 @@ export default function PvEGame() {
 
             {/* Current User Ranking */}
             <CurrentUserRanking refreshTrigger={rankingRefreshTrigger} />
-
-            {/* Leaderboard Widget */}
-            <LeaderboardWidget />
 
             {/* Page Header */}
             <div className="absolute top-4 left-4 z-10">
