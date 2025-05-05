@@ -2,12 +2,19 @@
 
 import { auth } from '@/lib/auth';
 import { db } from '@/database/db';
+import { headers } from "next/headers"
 import { rpsGame } from '@/database/schema/rps_game';
 import { getWinner, Move } from '@/lib/game';
 import { eq } from 'drizzle-orm';
 
 export async function playGame(_: any, formData: FormData) {
-  const session = await auth();
+  // Get session using Better Auth
+  const requestHeaders = headers();
+  const session = await auth.api.getSession({
+    headers: await requestHeaders,
+  });
+
+  // Check if session is valid
   if (!session) throw new Error("Not authenticated");
 
   const move = formData.get("move") as Move;
@@ -26,8 +33,14 @@ export async function playGame(_: any, formData: FormData) {
 }
 
 export async function resetGames() {
-  const session = await auth();
-  if (session?.user.role !== "admin") throw new Error("Not authorized");
+  // Get session using Better Auth
+  const requestHeaders = headers();
+  const session = await auth.api.getSession({
+    headers: await requestHeaders,
+  });
+
+  // Check if session is valid
+  if (!session) throw new Error("Not authenticated");
 
   await db.delete(rpsGame).where(eq(rpsGame.opponent, "AI"));
 }

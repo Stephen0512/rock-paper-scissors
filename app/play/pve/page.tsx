@@ -11,11 +11,11 @@ import CurrentUserRanking from "@/components/current-user-ranking"
 export default function PvEGame() {
     const [playerChoice, setPlayerChoice] = useState<Move | null>(null)
     const [aiChoice, setAiChoice] = useState<Move | null>(null)
-    const [result, setResult] = useState<GameResult | null>(null)
-    const [score, setScore] = useState({ player: 0, ai: 0 })
-    const [consecutiveWins, setConsecutiveWins] = useState<number>(0)
-    const [consecutiveLosses, setConsecutiveLosses] = useState<number>(0)
-    const [showAchievement, setShowAchievement] = useState<string | null>(null)
+    const [result, setResult] = useState<"win" | "lose" | "draw" | null>(null)
+    const [score, setScore] = useState(0)
+    const [showAchievement, setShowAchievement] = useState(false)
+    const [achievementMessage, setAchievementMessage] = useState("")
+    const [isPending, setIsPending] = useState(false)
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
@@ -25,7 +25,7 @@ export default function PvEGame() {
     useEffect(() => {
         if (showAchievement) {
             const timer = setTimeout(() => {
-                setShowAchievement(null)
+                setShowAchievement(false)
             }, 3000)
             return () => clearTimeout(timer)
         }
@@ -47,32 +47,16 @@ export default function PvEGame() {
             setRankingRefreshTrigger(prev => prev + 1)
             
             if (gameResult.result === "win") {
-                setScore(prev => ({ ...prev, player: prev.player + 1 }))
-                setConsecutiveWins(prev => {
-                    const newCount = prev + 1
-                    if (newCount === 3) {
-                        setShowAchievement("3 Consecutive Wins!  You are on a roll! 🔥")
-                    } else if (newCount === 5) {
-                        setShowAchievement("5 Consecutive Wins!  Unstoppable! 🏆")
-                    }
-                    return newCount
-                })
-                setConsecutiveLosses(0)
+                setScore(prev => prev + 1)
+                setShowAchievement(true)
+                setAchievementMessage("You Win! 🎉")
             } else if (gameResult.result === "lose") {
-                setScore(prev => ({ ...prev, ai: prev.ai + 1 }))
-                setConsecutiveLosses(prev => {
-                    const newCount = prev + 1
-                    if (newCount === 3) {
-                        setShowAchievement("3 Consecutive Losses!  You&apos;ll get &apos;em next time! 💪")
-                    } else if (newCount === 5) {
-                        setShowAchievement("5 Consecutive Losses!  Keep trying! Bad luck won&apos;t last forever! 🥹")
-                    }
-                    return newCount
-                })
-                setConsecutiveWins(0)
+                setScore(prev => prev - 1)
+                setShowAchievement(true)
+                setAchievementMessage("AI Wins! 🤖")
             } else {
-                setConsecutiveWins(0)
-                setConsecutiveLosses(0)
+                setShowAchievement(true)
+                setAchievementMessage("It&apos;s a Draw! 🤝")
             }
         } catch (error) {
             console.error("Error playing game:", error)
@@ -83,9 +67,7 @@ export default function PvEGame() {
         setPlayerChoice(null)
         setAiChoice(null)
         setResult(null)
-        setScore({ player: 0, ai: 0 })
-        setConsecutiveWins(0)
-        setConsecutiveLosses(0)
+        setScore(0)
     }
 
     return (
@@ -126,11 +108,7 @@ export default function PvEGame() {
                     <div className="flex justify-center gap-8">
                         <div>
                             <p className="text-gray-300">You</p>
-                            <p className="text-3xl font-bold text-white">{score.player}</p>
-                        </div>
-                        <div>
-                            <p className="text-gray-300">AI</p>
-                            <p className="text-3xl font-bold text-white">{score.ai}</p>
+                            <p className="text-3xl font-bold text-white">{score}</p>
                         </div>
                     </div>
                 </div>
@@ -212,7 +190,7 @@ export default function PvEGame() {
                         className="fixed top-8 left-1/2 transform -translate-x-1/2 z-50"
                     >
                         <div className="bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white px-8 py-4 rounded-full shadow-lg">
-                            <p className="text-xl font-bold">{showAchievement}</p>
+                            <p className="text-xl font-bold">{achievementMessage}</p>
                         </div>
                     </motion.div>
                 )}

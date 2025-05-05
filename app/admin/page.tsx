@@ -1,9 +1,11 @@
 import { auth } from "@/lib/auth";
 import { resetGames } from "@/actions/game";
+import { headers } from "next/headers";
 
 export default async function AdminPage() {
-    const session = await auth();
-    if (!session || session.user.role !== "admin") return null;
+    const requestHeaders = await headers();
+    const session = await auth.api.getSession({ headers: requestHeaders });
+    if (!session) return null;
 
     return (
         <main className="p-6">
