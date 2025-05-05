@@ -3,12 +3,12 @@
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
 
 export default function PlayPage() {
     const router = useRouter()
-    const { data: session, isPending } = authClient.useSession()
+    const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
 
     const handleGameModeClick = (path: string) => {

@@ -12,7 +12,6 @@ export default function PvPGame() {
     const [player2Choice, setPlayer2Choice] = useState<Move | null>(null)
     const [result, setResult] = useState<GameResult | null>(null)
     const [score, setScore] = useState({ player1: 0, player2: 0 })
-    const [consecutiveWins, setConsecutiveWins] = useState({ player1: 0, player2: 0 })
     const [showAchievement, setShowAchievement] = useState<string | null>(null)
     const [currentPlayer, setCurrentPlayer] = useState<1 | 2>(1)
     const [isProcessing, setIsProcessing] = useState(false)
@@ -50,28 +49,8 @@ export default function PvPGame() {
                 
                 if (gameResult.result === "player1") {
                     setScore(prev => ({ ...prev, player1: prev.player1 + 1 }))
-                    setConsecutiveWins(prev => {
-                        const newCount = prev.player1 + 1
-                        if (newCount === 3) {
-                            setShowAchievement("3 Consecutive Wins! Player 1 is on a roll!  🔥")
-                        } else if (newCount === 5) {
-                            setShowAchievement("5 Consecutive Wins! Player 1 is unstoppable! 🏆")
-                        }
-                        return { ...prev, player1: newCount, player2: 0 }
-                    })
                 } else if (gameResult.result === "player2") {
                     setScore(prev => ({ ...prev, player2: prev.player2 + 1 }))
-                    setConsecutiveWins(prev => {
-                        const newCount = prev.player2 + 1
-                        if (newCount === 3) {
-                            setShowAchievement("3 Consecutive Wins! Player 2 is on a roll!  🔥")
-                        } else if (newCount === 5) {
-                            setShowAchievement("5 Consecutive Wins! Player 2 is unstoppable! 🏆")
-                        }
-                        return { ...prev, player2: newCount, player1: 0 }
-                    })
-                } else {
-                    setConsecutiveWins({ player1: 0, player2: 0 })
                 }
                 
                 // Reset for next round after 4 seconds
@@ -94,7 +73,6 @@ export default function PvPGame() {
         setPlayer2Choice(null)
         setResult(null)
         setScore({ player1: 0, player2: 0 })
-        setConsecutiveWins({ player1: 0, player2: 0 })
         setCurrentPlayer(1)
         setIsProcessing(false)
     }
@@ -137,15 +115,15 @@ export default function PvPGame() {
                         <h3 className="text-xl font-bold text-white mb-2">
                             {result === "player1" ? "Player 1 Wins! 🎉" : 
                              result === "player2" ? "Player 2 Wins! 🎉" : 
-                             "It's a Draw! 🤝"}
+                             "It&apos;s a Draw! 🤝"}
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>
-                                <p className="text-gray-300">Player 1's Choice</p>
+                                <p className="text-gray-300">Player 1&apos;s Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{player1Choice}</p>
                             </div>
                             <div>
-                                <p className="text-gray-300">Player 2's Choice</p>
+                                <p className="text-gray-300">Player 2&apos;s Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{player2Choice}</p>
                             </div>
                         </div>
@@ -155,7 +133,7 @@ export default function PvPGame() {
                 {/* Current Player Indicator */}
                 <div className="text-center">
                     <p className="text-xl font-bold text-white">
-                        {currentPlayer === 1 ? "Player 1's Turn" : "Player 2's Turn"}
+                        {currentPlayer === 1 ? "Player 1&apos;s Turn" : "Player 2&apos;s Turn"}
                     </p>
                 </div>
 

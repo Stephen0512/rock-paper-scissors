@@ -51,7 +51,7 @@ export default function LeaderboardPage() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-white">Player vs AI Leaderboard</h1>
-            <p className="text-gray-300 mt-2">See who's dominating in games against our AI!</p>
+            <p className="text-gray-300 mt-2">See who&apos;s dominating in games against our AI!</p>
           </div>
           <Link href="/play">
             <motion.button
@@ -140,8 +140,8 @@ export default function LeaderboardPage() {
           <ul className="space-y-2 text-white/70">
             <li>• Play consistently to improve your rank</li>
             <li>• Win streaks are rewarded with special achievements</li>
-            <li>• Try to predict the AI's patterns for better results</li>
-            <li>• Challenge yourself to climb the leaderboard and beat your friends' scores</li>
+            <li>• Try to predict the AI&apos;s patterns for better results</li>
+            <li>• Challenge yourself to climb the leaderboard and beat your friends&apos; scores</li>
           </ul>
         </div>
       </div>

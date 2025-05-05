@@ -4,7 +4,6 @@ import { AuthCard } from "@daveyplate/better-auth-ui"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { cn } from "@/lib/utils"
 
 export function AuthView({ pathname }: { pathname: string }) {
     const router = useRouter()

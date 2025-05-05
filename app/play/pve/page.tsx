@@ -13,10 +13,10 @@ export default function PvEGame() {
     const [aiChoice, setAiChoice] = useState<Move | null>(null)
     const [result, setResult] = useState<GameResult | null>(null)
     const [score, setScore] = useState({ player: 0, ai: 0 })
-    const [consecutiveWins, setConsecutiveWins] = useState(0)
-    const [consecutiveLosses, setConsecutiveLosses] = useState(0)
+    const [consecutiveWins, setConsecutiveWins] = useState<number>(0)
+    const [consecutiveLosses, setConsecutiveLosses] = useState<number>(0)
     const [showAchievement, setShowAchievement] = useState<string | null>(null)
-    const { data: session, isPending } = authClient.useSession()
+    const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
 
@@ -63,9 +63,9 @@ export default function PvEGame() {
                 setConsecutiveLosses(prev => {
                     const newCount = prev + 1
                     if (newCount === 3) {
-                        setShowAchievement("3 Consecutive Losses!  You'll get 'em next time! 💪")
+                        setShowAchievement("3 Consecutive Losses!  You&apos;ll get &apos;em next time! 💪")
                     } else if (newCount === 5) {
-                        setShowAchievement("5 Consecutive Losses!  Keep trying! Bad luck won't last forever! 🥹")
+                        setShowAchievement("5 Consecutive Losses!  Keep trying! Bad luck won&apos;t last forever! 🥹")
                     }
                     return newCount
                 })
@@ -143,7 +143,7 @@ export default function PvEGame() {
                         className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-2xl p-6 text-center w-full max-w-xl"
                     >
                         <h3 className="text-xl font-bold text-white mb-2">
-                            {result === "win" ? "You Win! 🎉" : result === "lose" ? "AI Wins! 🤖" : "It's a Draw! 🤝"}
+                            {result === "win" ? "You Win! 🎉" : result === "lose" ? "AI Wins! 🤖" : "It&apos;s a Draw! 🤝"}
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>
@@ -151,7 +151,7 @@ export default function PvEGame() {
                                 <p className="text-xl font-bold text-white capitalize">{playerChoice}</p>
                             </div>
                             <div>
-                                <p className="text-gray-300">AI's Choice</p>
+                                <p className="text-gray-300">AI&apos;s Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{aiChoice}</p>
                             </div>
                         </div>
