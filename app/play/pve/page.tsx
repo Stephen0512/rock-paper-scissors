@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { playPvEGame, type GameResult } from "@/actions/pve-game"
+import { playPvEGame } from "@/actions/pve-game"
 import { Move } from "@/lib/game"
 import { authClient } from "@/lib/auth-client"
 import CurrentUserRanking from "@/components/current-user-ranking"
@@ -15,7 +15,6 @@ export default function PvEGame() {
     const [score, setScore] = useState(0)
     const [showAchievement, setShowAchievement] = useState(false)
     const [achievementMessage, setAchievementMessage] = useState("")
-    const [isPending, setIsPending] = useState(false)
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
