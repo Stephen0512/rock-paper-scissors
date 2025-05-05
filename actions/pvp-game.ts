@@ -9,7 +9,11 @@ import { headers } from 'next/headers';
 
 export type GameResult = "player1" | "player2" | "draw";
 
-export async function playPvPGame(player1Move: Move, player2Move: Move) {
+export async function playPvPGame(player1Move: Move, player2Move: Move): Promise<{
+    result: GameResult;
+    player1Move: Move;
+    player2Move: Move;
+}> {
   const requestHeaders = await headers();
   const session = await auth.api.getSession({ headers: requestHeaders });
   if (!session) throw new Error("Not authenticated");
@@ -25,10 +29,10 @@ export async function playPvPGame(player1Move: Move, player2Move: Move) {
     result: gameResult,
   });
 
-  return { 
-    player1Move, 
-    player2Move, 
-    result
+  return {
+    result,
+    player1Move,
+    player2Move
   };
 }
 

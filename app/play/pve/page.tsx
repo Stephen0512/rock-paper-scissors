@@ -3,22 +3,24 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { playPvEGame, getPvEGameHistory } from "@/actions/pve-game"
+import { playPvEGame, getPvEGameHistory, GameState, GameHistory } from "@/actions/pve-game"
 import { Move } from "@/lib/game"
 import { authClient } from "@/lib/auth-client"
 import CurrentUserRanking from "@/components/current-user-ranking"
 
 export default function PvEGame() {
-    const [playerChoice, setPlayerChoice] = useState<Move | null>(null)
-    const [aiChoice, setAiChoice] = useState<Move | null>(null)
-    const [result, setResult] = useState<"win" | "lose" | "draw" | null>(null)
-    const [score, setScore] = useState({ player: 0, ai: 0 })
+    const [gameState, setGameState] = useState<GameState>({
+        playerMove: null,
+        opponentMove: null,
+        result: null,
+        score: { player: 0, ai: 0 }
+    })
     const [showAchievement, setShowAchievement] = useState(false)
     const [achievementMessage, setAchievementMessage] = useState("")
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
-    const [gameHistory, setGameHistory] = useState<Array<{ playerMove: Move; opponentMove: Move; result: "win" | "lose" | "draw"; createdAt: Date }>>([])
+    const [gameHistory, setGameHistory] = useState<GameHistory[]>([])
 
     const choices: Move[] = ["rock", "paper", "scissors"]
 
@@ -31,6 +33,20 @@ export default function PvEGame() {
         }
     }, [showAchievement])
 
+    useEffect(() => {
+        const fetchGameHistory = async () => {
+            if (session) {
+                try {
+                    const history = await getPvEGameHistory()
+                    setGameHistory(history)
+                } catch (error) {
+                    console.error("Error fetching game history:", error)
+                }
+            }
+        }
+        fetchGameHistory()
+    }, [session])
+
     const handleChoice = async (choice: Move) => {
         if (!session) {
             setShowAuthModal(true)
@@ -38,25 +54,19 @@ export default function PvEGame() {
         }
 
         try {
-            const gameResult = await playPvEGame(choice)
-            setPlayerChoice(gameResult.playerMove)
-            setAiChoice(gameResult.opponentMove)
-            setResult(gameResult.result)
-            
-            // Refresh the ranking after a game
+            const result = await playPvEGame(choice)
+            setGameState(result)
             setRankingRefreshTrigger(prev => prev + 1)
             
-            if (gameResult.result === "win") {
-                setScore(prev => ({ ...prev, player: prev.player + 1 }))
+            if (result.result === "win") {
                 setShowAchievement(true)
                 setAchievementMessage("You Win! 🎉")
-            } else if (gameResult.result === "lose") {
-                setScore(prev => ({ ...prev, ai: prev.ai + 1 }))
+            } else if (result.result === "lose") {
                 setShowAchievement(true)
                 setAchievementMessage("AI Wins! 🤖")
             } else {
                 setShowAchievement(true)
-                setAchievementMessage("It&apos;s a Draw! 🤝")
+                setAchievementMessage("It's a Draw! 🤝")
             }
         } catch (error) {
             console.error("Error playing game:", error)
@@ -64,10 +74,12 @@ export default function PvEGame() {
     }
 
     const resetGame = () => {
-        setPlayerChoice(null)
-        setAiChoice(null)
-        setResult(null)
-        setScore({ player: 0, ai: 0 })
+        setGameState({
+            playerMove: null,
+            opponentMove: null,
+            result: null,
+            score: { player: 0, ai: 0 }
+        })
     }
 
     return (
@@ -108,34 +120,33 @@ export default function PvEGame() {
                     <div className="flex justify-center gap-8">
                         <div>
                             <p className="text-gray-300">You</p>
-                            <p className="text-3xl font-bold text-white">{score.player}</p>
+                            <p className="text-3xl font-bold text-white">{gameState.score.player}</p>
                         </div>
                         <div>
                             <p className="text-gray-300">AI</p>
-                            <p className="text-3xl font-bold text-white">{score.ai}</p>
+                            <p className="text-3xl font-bold text-white">{gameState.score.ai}</p>
                         </div>
                     </div>
                 </div>
 
-
                 {/* Game Result */}
-                {result && (
+                {gameState.result && (
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-2xl p-6 text-center w-full max-w-xl"
                     >
                         <h3 className="text-xl font-bold text-white mb-2">
-                            {result === "win" ? "You Win! 🎉" : result === "lose" ? "AI Wins! 🤖" : "It&apos;s a Draw! 🤝"}
+                            {gameState.result === "win" ? "You Win! 🎉" : gameState.result === "lose" ? "AI Wins! 🤖" : "It&apos;s a Draw! 🤝"}
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>
                                 <p className="text-gray-300">Your Choice</p>
-                                <p className="text-xl font-bold text-white capitalize">{playerChoice}</p>
+                                <p className="text-xl font-bold text-white capitalize">{gameState.playerMove}</p>
                             </div>
                             <div>
                                 <p className="text-gray-300">AI&apos;s Choice</p>
-                                <p className="text-xl font-bold text-white capitalize">{aiChoice}</p>
+                                <p className="text-xl font-bold text-white capitalize">{gameState.opponentMove}</p>
                             </div>
                         </div>
                     </motion.div>
