@@ -128,16 +128,17 @@ export default function PlayPage() {
 
             {/* Right Side - Video Space */}
             <div className="relative w-1/2 p-8 flex items-center justify-center">
-                <div className="bg-[#1A1A2E]/50 backdrop-blur-sm rounded-2xl w-full h-[80%] border border-white/10 flex items-center justify-center overflow-hidden">
-                    <video 
-                        className="w-full h-full object-contain"
-                        controls
-                        poster="/video-thumbnail.jpg"
-                    >
-                        <source src="/videos/gameplay.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
+                <video 
+                    className="w-full h-full object-contain rounded-2xl"
+                    autoPlay
+                    muted
+                    playsInline
+                    loop
+                >
+                    <source src="/video.mov" type="video/quicktime" />
+                    <source src="/video.mov" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
             </div>
 
             {/* Auth Modal */}
