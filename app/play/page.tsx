@@ -20,7 +20,7 @@ export default function PlayPage() {
     }
 
     return (
-        <main className="absolute inset-0 flex p-4">
+        <main className="absolute inset-0 flex flex-col lg:flex-row p-4 sm:p-6 md:p-8">
             {/* Background Design - Reusing the same background from auth page */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Mountains */}
@@ -34,15 +34,15 @@ export default function PlayPage() {
             </div>
 
             {/* Header with Leaderboard Link */}
-            <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+            <div className="absolute top-0 left-0 right-0 p-4 sm:p-6 flex justify-between items-center z-10">
                 <div></div> {/* Empty div for spacing */}
                 <Link href="/leaderboard">
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-2 bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white rounded-xl font-bold hover:opacity-90 flex items-center gap-2"
+                        className="px-3 sm:px-4 md:px-6 py-2 bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white rounded-xl font-bold hover:opacity-90 flex items-center gap-2 text-sm sm:text-base"
                     >
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                         </svg>
                         Leaderboard
@@ -51,13 +51,13 @@ export default function PlayPage() {
             </div>
 
             {/* Left Side - Game Mode Selection */}
-            <div className="relative w-1/2 p-8 flex flex-col justify-center">
-                <div className="text-center space-y-2 mb-12">
-                    <h1 className="text-4xl font-bold tracking-tight text-white">Choose Your Game Mode</h1>
-                    <p className="text-gray-300 text-lg">Select how you want to play Rock Paper Scissors</p>
+            <div className="relative w-full lg:w-1/2 p-4 sm:p-6 lg:p-8 flex flex-col justify-center mt-16 sm:mt-20">
+                <div className="text-center space-y-2 mb-6 sm:mb-8 md:mb-12">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">Choose Your Game Mode</h1>
+                    <p className="text-gray-300 text-sm sm:text-base md:text-lg">Select how you want to play Rock Paper Scissors</p>
                 </div>
 
-                <div className="space-y-8 max-w-xl mx-auto">
+                <div className="space-y-3 sm:space-y-4 md:space-y-6 lg:space-y-8 max-w-xl mx-auto">
                     {/* PvE Mode Card */}
                     <motion.div
                         whileHover={{ scale: 1.02 }}
@@ -65,16 +65,16 @@ export default function PlayPage() {
                         className="relative group cursor-pointer"
                         onClick={() => handleGameModeClick('/play/pve')}
                     >
-                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 transition-all">
-                            <div className="flex items-start space-x-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-6 border border-white/10 hover:border-white/30 transition-all">
+                            <div className="flex items-start space-x-3 sm:space-x-4">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-white">Player vs AI</h2>
-                                    <p className="text-gray-300 text-sm mt-1">Challenge our AI opponent in a classic game of Rock Paper Scissors. Test your skills against our intelligent algorithm!</p>
+                                    <h2 className="text-base sm:text-lg md:text-xl font-bold text-white">Player vs AI</h2>
+                                    <p className="text-gray-300 text-xs sm:text-sm md:text-base mt-1">Challenge our AI opponent in a classic game of Rock Paper Scissors. Test your skills against our intelligent algorithm!</p>
                                 </div>
                             </div>
                         </div>
@@ -87,16 +87,16 @@ export default function PlayPage() {
                         className="relative group cursor-pointer"
                         onClick={() => handleGameModeClick('/play/pvp')}
                     >
-                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 transition-all">
-                            <div className="flex items-start space-x-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-6 border border-white/10 hover:border-white/30 transition-all">
+                            <div className="flex items-start space-x-3 sm:space-x-4">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-white">Player vs Player</h2>
-                                    <p className="text-gray-300 text-sm mt-1">Play against your friends in real-time! Challenge them to a game and see who comes out on top.</p>
+                                    <h2 className="text-base sm:text-lg md:text-xl font-bold text-white">Player vs Player</h2>
+                                    <p className="text-gray-300 text-xs sm:text-sm md:text-base mt-1">Play against your friends in real-time! Challenge them to a game and see who comes out on top.</p>
                                 </div>
                             </div>
                         </div>
@@ -109,16 +109,16 @@ export default function PlayPage() {
                         className="relative group cursor-pointer"
                         onClick={() => handleGameModeClick('/play/online')}
                     >
-                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 transition-all">
-                            <div className="flex items-start space-x-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-6 border border-white/10 hover:border-white/30 transition-all">
+                            <div className="flex items-start space-x-3 sm:space-x-4">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#00C2FF] to-[#7D00FF] rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-white">Play Online</h2>
-                                    <p className="text-gray-300 text-sm mt-1">Connect with players worldwide in our global multiplayer mode. Show them you are the best player!</p>
+                                    <h2 className="text-base sm:text-lg md:text-xl font-bold text-white">Play Online</h2>
+                                    <p className="text-gray-300 text-xs sm:text-sm md:text-base mt-1">Connect with players worldwide in our global multiplayer mode. Show them you are the best player!</p>
                                 </div>
                             </div>
                         </div>
@@ -127,9 +127,9 @@ export default function PlayPage() {
             </div>
 
             {/* Right Side - Video Space */}
-            <div className="relative w-1/2 p-8 flex items-center justify-center">
+            <div className="relative w-full lg:w-1/2 p-4 sm:p-6 lg:p-8 flex items-center justify-center mt-6 sm:mt-8 lg:mt-0">
                 <video 
-                    className="w-full h-full object-contain rounded-2xl"
+                    className="w-full h-full max-h-[250px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-none object-contain rounded-2xl"
                     autoPlay
                     muted
                     playsInline
@@ -154,26 +154,26 @@ export default function PlayPage() {
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
-                            className="bg-[#1A1A2E] rounded-2xl p-6 w-full max-w-md relative"
+                            className="bg-[#1A1A2E] rounded-2xl p-4 sm:p-6 w-full max-w-[90%] sm:max-w-md relative"
                         >
                             <button
                                 onClick={() => setShowAuthModal(false)}
-                                className="absolute top-4 right-4 text-white/60 hover:text-white"
+                                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/60 hover:text-white"
                             >
-                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
-                            <div className="text-center mb-6">
-                                <h2 className="text-2xl font-bold text-white">Sign In Required</h2>
-                                <p className="text-gray-300 mt-2">Please sign in to play the game</p>
+                            <div className="text-center mb-4 sm:mb-6">
+                                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">Sign In Required</h2>
+                                <p className="text-gray-300 mt-2 text-xs sm:text-sm md:text-base">Please sign in to play the game</p>
                             </div>
-                            <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-3 sm:gap-4">
                                 <Link href="/auth/sign-in">
                                     <motion.button
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full px-6 py-3 bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white rounded-xl font-bold hover:opacity-90"
+                                        className="w-full px-3 sm:px-4 md:px-6 py-2 sm:py-3 bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white rounded-xl font-bold hover:opacity-90 text-sm sm:text-base"
                                     >
                                         Sign In
                                     </motion.button>
@@ -182,7 +182,7 @@ export default function PlayPage() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => setShowAuthModal(false)}
-                                    className="w-full px-6 py-3 bg-white/10 text-white rounded-xl font-bold hover:bg-white/20"
+                                    className="w-full px-3 sm:px-4 md:px-6 py-2 sm:py-3 bg-white/10 text-white rounded-xl font-bold hover:bg-white/20 text-sm sm:text-base"
                                 >
                                     Cancel
                                 </motion.button>
