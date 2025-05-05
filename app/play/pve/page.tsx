@@ -18,6 +18,10 @@ export default function PvEGame() {
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
+    const [consecutiveWins, setConsecutiveWins] = useState(0)
+    const [consecutiveLosses, setConsecutiveLosses] = useState(0)
+    const [streakMessage, setStreakMessage] = useState("")
+    const [showStreak, setShowStreak] = useState(false)
 
     const choices: Move[] = ["rock", "paper", "scissors"]
 
@@ -29,6 +33,29 @@ export default function PvEGame() {
             return () => clearTimeout(timer)
         }
     }, [showAchievement])
+
+    useEffect(() => {
+        if (consecutiveWins === 3) {
+            setStreakMessage("3 Consecutive Wins! You're on fire! 🔥")
+            setShowStreak(true)
+        } else if (consecutiveWins === 5) {
+            setStreakMessage("5 Consecutive Wins! Unstoppable! 🏆")
+            setShowStreak(true)
+        } else if (consecutiveLosses === 3) {
+            setStreakMessage("3 Consecutive Losses! You'll get 'em next time! 💪")
+            setShowStreak(true)
+        } else if (consecutiveLosses === 5) {
+            setStreakMessage("5 Consecutive Losses! Don't give up! 🌈")
+            setShowStreak(true)
+        }
+    }, [consecutiveWins, consecutiveLosses])
+
+    useEffect(() => {
+        if (showStreak) {
+            const timer = setTimeout(() => setShowStreak(false), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [showStreak])
 
     const handleChoice = async (choice: Move) => {
         if (!session) {
@@ -43,17 +70,23 @@ export default function PvEGame() {
             setResult(gameResult.result)
             
             // Refresh the ranking after a game
-            setRankingRefreshTrigger(prev => prev + 1)
+            setRankingRefreshTrigger((prev: number) => prev + 1)
             
             if (gameResult.result === "win") {
-                setScore(prev => ({ ...prev, player: prev.player + 1 }))
+                setScore((prev: { player: number; ai: number }) => ({ ...prev, player: prev.player + 1 }))
+                setConsecutiveWins((prev: number) => prev + 1)
+                setConsecutiveLosses(() => 0)
                 setShowAchievement(true)
                 setAchievementMessage("You Win! 🎉")
             } else if (gameResult.result === "lose") {
-                setScore(prev => ({ ...prev, ai: prev.ai + 1 }))
+                setScore((prev: { player: number; ai: number }) => ({ ...prev, ai: prev.ai + 1 }))
+                setConsecutiveLosses((prev: number) => prev + 1)
+                setConsecutiveWins(() => 0)
                 setShowAchievement(true)
                 setAchievementMessage("AI Wins! 🤖")
             } else {
+                setConsecutiveWins(() => 0)
+                setConsecutiveLosses(() => 0)
                 setShowAchievement(true)
                 setAchievementMessage("It's a Draw! 🤝")
             }
@@ -195,6 +228,22 @@ export default function PvEGame() {
                     >
                         <div className="bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white px-8 py-4 rounded-full shadow-lg">
                             <p className="text-xl font-bold">{achievementMessage}</p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Streak Popup */}
+            <AnimatePresence>
+                {showStreak && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -50, scale: 0.8 }}
+                        className="fixed top-2 left-1/2 transform -translate-x-1/2 z-50"
+                    >
+                        <div className="bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-8 py-4 rounded-full shadow-lg">
+                            <p className="text-xl font-bold">{streakMessage}</p>
                         </div>
                     </motion.div>
                 )}

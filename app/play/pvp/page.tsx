@@ -17,6 +17,10 @@ export default function PvPGame() {
     const [isProcessing, setIsProcessing] = useState(false)
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
+    const [player1Streak, setPlayer1Streak] = useState(0)
+    const [player2Streak, setPlayer2Streak] = useState(0)
+    const [streakMessage, setStreakMessage] = useState("")
+    const [showStreak, setShowStreak] = useState(false)
 
     const choices: Move[] = ["rock", "paper", "scissors"]
 
@@ -28,6 +32,29 @@ export default function PvPGame() {
             return () => clearTimeout(timer)
         }
     }, [showAchievement])
+
+    useEffect(() => {
+        if (player1Streak === 3) {
+            setStreakMessage(" 3 Consecutive Wins! Player 1 is on fire! 🔥")
+            setShowStreak(true)
+        } else if (player1Streak === 5) {
+            setStreakMessage(" 5 Consecutive Wins! Player 1 is unstoppable! 🏆")
+            setShowStreak(true)
+        } else if (player2Streak === 3) {
+            setStreakMessage(" 3 Consecutive Wins! Player 2 is on fire! 🔥")
+            setShowStreak(true)
+        } else if (player2Streak === 5) {
+            setStreakMessage(" 5 Consecutive Wins! Player 2 is unstoppable! 🏆")
+            setShowStreak(true)
+        }
+    }, [player1Streak, player2Streak])
+
+    useEffect(() => {
+        if (showStreak) {
+            const timer = setTimeout(() => setShowStreak(false), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [showStreak])
 
     const handleChoice = async (choice: Move) => {
         if (!session) {
@@ -49,8 +76,15 @@ export default function PvPGame() {
                 
                 if (gameResult.result === "player1") {
                     setScore(prev => ({ ...prev, player1: prev.player1 + 1 }))
+                    setPlayer1Streak(prev => prev + 1)
+                    setPlayer2Streak(0)
                 } else if (gameResult.result === "player2") {
                     setScore(prev => ({ ...prev, player2: prev.player2 + 1 }))
+                    setPlayer2Streak(prev => prev + 1)
+                    setPlayer1Streak(0)
+                } else {
+                    setPlayer1Streak(0)
+                    setPlayer2Streak(0)
                 }
                 
                 // Reset for next round after 4 seconds
@@ -196,6 +230,22 @@ export default function PvPGame() {
                     >
                         <div className="bg-gradient-to-r from-[#00C2FF] to-[#7D00FF] text-white px-8 py-4 rounded-full shadow-lg">
                             <p className="text-xl font-bold">{showAchievement}</p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Streak Popup */}
+            <AnimatePresence>
+                {showStreak && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -50, scale: 0.8 }}
+                        className="fixed top-2 left-1/2 transform -translate-x-1/2 z-50"
+                    >
+                        <div className="bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-8 py-4 rounded-full shadow-lg">
+                            <p className="text-xl font-bold">{streakMessage}</p>
                         </div>
                     </motion.div>
                 )}
