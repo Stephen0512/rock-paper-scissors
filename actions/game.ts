@@ -8,7 +8,7 @@ import { getWinner, Move } from '@/lib/game';
 import { eq } from 'drizzle-orm';
 
 export async function playGame(_: any, formData: FormData) {
-  // Get session using Better Auth
+  // Get session using Better Auth (auth.ts)
   const requestHeaders = headers();
   const session = await auth.api.getSession({
     headers: await requestHeaders,
