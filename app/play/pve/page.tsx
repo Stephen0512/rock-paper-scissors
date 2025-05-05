@@ -56,7 +56,7 @@ export default function PvEGame() {
                 setAchievementMessage("AI Wins! 🤖")
             } else {
                 setShowAchievement(true)
-                setAchievementMessage("It&apos;s a Draw! 🤝")
+                setAchievementMessage("It's a Draw! 🤝")
             }
         } catch (error) {
             console.error("Error playing game:", error)
@@ -134,7 +134,7 @@ export default function PvEGame() {
                                 <p className="text-xl font-bold text-white capitalize">{playerChoice}</p>
                             </div>
                             <div>
-                                <p className="text-gray-300">AI&apos;s Choice</p>
+                                <p className="text-gray-300">AI's Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{aiChoice}</p>
                             </div>
                         </div>

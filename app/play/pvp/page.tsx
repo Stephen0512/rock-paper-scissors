@@ -119,11 +119,11 @@ export default function PvPGame() {
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>
-                                <p className="text-gray-300">Player 1&apos;s Choice</p>
+                                <p className="text-gray-300">Player 1's Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{player1Choice}</p>
                             </div>
                             <div>
-                                <p className="text-gray-300">Player 2&apos;s Choice</p>
+                                <p className="text-gray-300">Player 2's Choice</p>
                                 <p className="text-xl font-bold text-white capitalize">{player2Choice}</p>
                             </div>
                         </div>
