@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
+import { db } from '@/database/db';
 import { rpsGame } from '@/database/schema/rps_game';
 import { getWinner, Move } from '@/lib/game';
 import { eq } from 'drizzle-orm';

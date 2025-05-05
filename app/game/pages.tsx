@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { db } from "@/lib/db";
+import { db } from "@/database/db";
 import { rpsGame } from "@/database/schema/rps_game";
 import { eq } from "drizzle-orm";
 
