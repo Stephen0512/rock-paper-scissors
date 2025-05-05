@@ -126,7 +126,7 @@ export default function PvEGame() {
                         className="bg-[#1A1A2E]/80 backdrop-blur-sm rounded-2xl p-6 text-center w-full max-w-xl"
                     >
                         <h3 className="text-xl font-bold text-white mb-2">
-                            {result === "win" ? "You Win! 🎉" : result === "lose" ? "AI Wins! 🤖" : "It&apos;s a Draw! 🤝"}
+                            {result === "win" ? "You Win! 🎉" : result === "lose" ? "AI Wins! 🤖" : "It's a Draw! 🤝"}
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>

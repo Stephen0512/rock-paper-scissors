@@ -115,7 +115,7 @@ export default function PvPGame() {
                         <h3 className="text-xl font-bold text-white mb-2">
                             {result === "player1" ? "Player 1 Wins! 🎉" : 
                              result === "player2" ? "Player 2 Wins! 🎉" : 
-                             "It&apos;s a Draw! 🤝"}
+                             "It's a Draw! 🤝"}
                         </h3>
                         <div className="flex justify-center gap-8 mt-4">
                             <div>
