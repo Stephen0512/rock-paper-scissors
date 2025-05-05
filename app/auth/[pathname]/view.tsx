@@ -35,7 +35,7 @@ export function AuthView({ pathname }: { pathname: string }) {
                     </p>
                 </div>
                 
-                <div className="[&_.auth-card]:bg-transparent [&_.auth-card]:shadow-none [&_input]:bg-white [&_input]:border-white/20 [&_input]:text-black [&_input]:placeholder-gray-500 [&_button]:bg-gradient-to-r [&_button]:from-[#00C2FF] [&_button]:to-[#7D00FF] [&_button]:hover:opacity-90">
+                <div className="[&_.auth-card]:bg-transparent [&_.auth-card]:shadow-none [&_input]:bg-white [&_input]:border-white/20 [&_input]:text-black [&_input]:placeholder-gray-500 [&_button[type='submit']]:bg-gradient-to-r [&_button[type='submit']]:from-[#00C2FF] [&_button[type='submit']]:to-[#7D00FF] [&_button[type='submit']]:hover:opacity-90">
                     <AuthCard pathname={pathname} />
                 </div>
             </div>
@@ -49,7 +49,7 @@ export function AuthView({ pathname }: { pathname: string }) {
                 >
                     Stephen Shen, Zening Wang, Yuxiang Jiang
                 </Link>
-                {" "}- Cornell Tech MS Student
+                {" "} - Cornell Tech MS Student
             </p>
         </main>
     )
