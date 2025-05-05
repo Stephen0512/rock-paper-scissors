@@ -20,9 +20,9 @@ export default function PlayPage() {
     }
 
     return (
-        <main className="absolute inset-0 flex flex-col lg:flex-row p-4 sm:p-6 md:p-8">
+        <main className="absolute inset-0 flex flex-col lg:flex-row p-4 sm:p-6 md:p-8 overflow-y-auto">
             {/* Background Design - Reusing the same background from auth page */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="fixed inset-0 overflow-hidden">
                 {/* Mountains */}
                 <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-[#2A1B5D] to-transparent">
                     <div className="absolute bottom-0 left-0 right-0 h-full bg-[url('/mountains.svg')] bg-cover bg-bottom opacity-50"></div>

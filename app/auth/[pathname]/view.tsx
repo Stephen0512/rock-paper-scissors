@@ -13,9 +13,9 @@ export function AuthView({ pathname }: { pathname: string }) {
     }, [router])
 
     return (
-        <main className="absolute inset-0 flex flex-col items-center justify-center p-4">
+        <main className="absolute inset-0 flex flex-col items-center justify-center p-4 overflow-y-auto">
             {/* Background Design */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="fixed inset-0 overflow-hidden">
                 {/* Mountains */}
                 <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-[#2A1B5D] to-transparent">
                     <div className="absolute bottom-0 left-0 right-0 h-full bg-[url('/mountains.svg')] bg-cover bg-bottom opacity-50"></div>

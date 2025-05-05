@@ -103,9 +103,9 @@ export default function PvEGame() {
     }
 
     return (
-        <main className="absolute inset-0 flex flex-col items-center p-4">
+        <main className="absolute inset-0 flex flex-col items-center p-4 overflow-y-auto">
             {/* Background Design */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="fixed inset-0 overflow-hidden">
                 <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-[#2A1B5D] to-transparent">
                     <div className="absolute bottom-0 left-0 right-0 h-full bg-[url('/mountains.svg')] bg-cover bg-bottom opacity-50"></div>
                 </div>
@@ -127,7 +127,7 @@ export default function PvEGame() {
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back
+                        <span className="hidden sm:inline">Back</span>
                     </motion.button>
                 </Link>
             </div>

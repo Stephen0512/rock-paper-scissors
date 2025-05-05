@@ -16,7 +16,7 @@ export default async function GamePage() {
     .where(eq(rpsGame.playerId, session.user.id));
 
   return (
-    <main className="py-8 px-4">
+    <main className="py-8 px-4 overflow-y-auto">
       <section className="container mx-auto text-center">
         <h1 className="text-2xl font-bold mb-6">Rock Paper Scissors</h1>
         <div className="space-x-4 mb-6">
