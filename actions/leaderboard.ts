@@ -22,16 +22,29 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   try {
     // Get raw data about game stats for each player
     const results = await db.execute(sql`
+      WITH player_stats AS (
+        SELECT 
+          rps_game.player_id,
+          COUNT(*) as total_games,
+          SUM(CASE WHEN rps_game.result = 'player' THEN 1 ELSE 0 END) as wins,
+          SUM(CASE WHEN rps_game.result = 'opponent' THEN 1 ELSE 0 END) as losses,
+          SUM(CASE WHEN rps_game.result = 'draw' THEN 1 ELSE 0 END) as draws
+        FROM ${rpsGame}
+        WHERE rps_game.opponent = 'AI'
+        GROUP BY rps_game.player_id
+      )
       SELECT 
-        rps_game.player_id,
-        COUNT(*) as total_games,
-        SUM(CASE WHEN rps_game.result = 'player' THEN 1 ELSE 0 END) as wins,
-        SUM(CASE WHEN rps_game.result = 'opponent' THEN 1 ELSE 0 END) as losses,
-        SUM(CASE WHEN rps_game.result = 'draw' THEN 1 ELSE 0 END) as draws
-      FROM ${rpsGame}
-      WHERE rps_game.opponent = 'AI'
-      GROUP BY rps_game.player_id
-      ORDER BY wins DESC
+        player_id,
+        total_games,
+        wins,
+        losses,
+        draws,
+        CASE 
+          WHEN total_games > 0 THEN (wins::float / total_games::float) * 100
+          ELSE 0
+        END as win_rate
+      FROM player_stats
+      ORDER BY win_rate DESC, total_games DESC
     `);
 
     // Get all users to map IDs to names
@@ -45,11 +58,13 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
       wins: string;
       losses: string;
       draws: string;
+      win_rate: string;
     }>;
     
     const leaderboard: LeaderboardEntry[] = rows.map((row, index) => {
       const totalGames = parseInt(row.total_games);
       const wins = parseInt(row.wins);
+      const winRate = parseFloat(row.win_rate);
       
       return {
         playerId: row.player_id,
@@ -58,7 +73,7 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
         losses: parseInt(row.losses),
         draws: parseInt(row.draws),
         totalGames: totalGames,
-        winRate: totalGames > 0 ? (wins / totalGames) * 100 : 0,
+        winRate: winRate,
         rank: index + 1 // Add ranking
       };
     });
