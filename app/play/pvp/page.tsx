@@ -133,7 +133,7 @@ export default function PvPGame() {
                 {/* Current Player Indicator */}
                 <div className="text-center">
                     <p className="text-xl font-bold text-white">
-                        {currentPlayer === 1 ? "Player 1&apos;s Turn" : "Player 2&apos;s Turn"}
+                        {currentPlayer === 1 ? "Player 1's Turn" : "Player 2's Turn"}
                     </p>
                 </div>
 

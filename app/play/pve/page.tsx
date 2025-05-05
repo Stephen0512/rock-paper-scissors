@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { playPvEGame } from "@/actions/pve-game"
+import { playPvEGame, getPvEGameHistory } from "@/actions/pve-game"
 import { Move } from "@/lib/game"
 import { authClient } from "@/lib/auth-client"
 import CurrentUserRanking from "@/components/current-user-ranking"
@@ -12,12 +12,13 @@ export default function PvEGame() {
     const [playerChoice, setPlayerChoice] = useState<Move | null>(null)
     const [aiChoice, setAiChoice] = useState<Move | null>(null)
     const [result, setResult] = useState<"win" | "lose" | "draw" | null>(null)
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState({ player: 0, ai: 0 })
     const [showAchievement, setShowAchievement] = useState(false)
     const [achievementMessage, setAchievementMessage] = useState("")
     const { data: session } = authClient.useSession()
     const [showAuthModal, setShowAuthModal] = useState(false)
     const [rankingRefreshTrigger, setRankingRefreshTrigger] = useState(0)
+    const [gameHistory, setGameHistory] = useState<Array<{ playerMove: Move; opponentMove: Move; result: "win" | "lose" | "draw"; createdAt: Date }>>([])
 
     const choices: Move[] = ["rock", "paper", "scissors"]
 
@@ -46,11 +47,11 @@ export default function PvEGame() {
             setRankingRefreshTrigger(prev => prev + 1)
             
             if (gameResult.result === "win") {
-                setScore(prev => prev + 1)
+                setScore(prev => ({ ...prev, player: prev.player + 1 }))
                 setShowAchievement(true)
                 setAchievementMessage("You Win! 🎉")
             } else if (gameResult.result === "lose") {
-                setScore(prev => prev - 1)
+                setScore(prev => ({ ...prev, ai: prev.ai + 1 }))
                 setShowAchievement(true)
                 setAchievementMessage("AI Wins! 🤖")
             } else {
@@ -66,7 +67,7 @@ export default function PvEGame() {
         setPlayerChoice(null)
         setAiChoice(null)
         setResult(null)
-        setScore(0)
+        setScore({ player: 0, ai: 0 })
     }
 
     return (
@@ -107,10 +108,15 @@ export default function PvEGame() {
                     <div className="flex justify-center gap-8">
                         <div>
                             <p className="text-gray-300">You</p>
-                            <p className="text-3xl font-bold text-white">{score}</p>
+                            <p className="text-3xl font-bold text-white">{score.player}</p>
+                        </div>
+                        <div>
+                            <p className="text-gray-300">AI</p>
+                            <p className="text-3xl font-bold text-white">{score.ai}</p>
                         </div>
                     </div>
                 </div>
+
 
                 {/* Game Result */}
                 {result && (
