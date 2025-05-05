@@ -4,7 +4,6 @@ import { auth } from '@/lib/auth';
 import { db } from '@/database/db';
 import { rpsGame } from '@/database/schema/rps_game';
 import { getWinner, Move } from '@/lib/game';
-import { eq, desc } from 'drizzle-orm';
 import { headers } from 'next/headers';
 
 export type GameResult = "player1" | "player2" | "draw";
@@ -34,18 +33,4 @@ export async function playPvPGame(player1Move: Move, player2Move: Move): Promise
     player1Move,
     player2Move
   };
-}
-
-export async function getPvPGameHistory() {
-  const requestHeaders = await headers();
-  const session = await auth.api.getSession({ headers: requestHeaders });
-  if (!session) throw new Error("Not authenticated");
-
-  const games = await db
-    .select()
-    .from(rpsGame)
-    .where(eq(rpsGame.playerId, session.user.id))
-    .orderBy(desc(rpsGame.createdAt));
-
-  return games;
 } 

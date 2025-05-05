@@ -2,7 +2,6 @@
 
 import { AuthUIProviderTanstack } from "@daveyplate/better-auth-ui/tanstack"
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { ReactNode } from "react"
 import { Toaster, toast } from "sonner"
